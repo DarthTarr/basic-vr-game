@@ -1,25 +1,22 @@
+function draw(x, z, rad, height){
+  let trunk = document.createElement("a-cylinder")
+  trunk.setAttribute("position", (x-50) + " " + 0 + " " + (z-50))
+  trunk.setAttribute("color", "#3B1700")
+  trunk.setAttribute("radius", rad)
+  trunk.setAttribute("height", height)
+  scene.appendChild(trunk)
+  let leaf = document.createElement("a-cone")
+  leaf.setAttribute("position", (x-50) + " " + height/2 + " " + (z-50))
+  leaf.setAttribute("color", "rgb(" + (Math.floor(Math.random()*255)) + "," + (Math.floor(Math.random()*255)) + "," + 0 + ")")
+  leaf.setAttribute("height", height*2/5)
+  leaf.setAttribute("radius-bottom", rad*5/2)
+  scene.appendChild(leaf)
+}
 let scene = document.querySelector("a-scene");
-let logs = [50]
-let leafs = [50]
-for(let i= 0; i < 50; i++){
-    let x = 0
-    let z = 0
-    while(x == 0){
-      x = Math.random()*100
+  fetch("positions.json")
+  .then(r => r.json())
+  .then(b =>{
+    for(let i = 0; i < b.positions.length; i++){
+      draw(b.positions[i].x, b.positions[i].z, 0.4, 10)
     }
-    while(z == 0){
-      z = Math.random()*100
-    }
-    logs[i] = document.createElement("a-cylinder")
-    logs[i].setAttribute("position", (x-50) + " " + 0 + " " + (z-50))
-    logs[i].setAttribute("color", "#3B1700")
-    logs[i].setAttribute("radius", Math.max(Math.min(1, Math.random()+0.1), 0.3))
-    logs[i].setAttribute("height", 10)
-    scene.appendChild(logs[i])
-    leafs[i] = document.createElement("a-cone")
-    leafs[i].setAttribute("position", (x-50) + " " + 5 + " " + (z-50))
-    leafs[i].setAttribute("color", "rgb(" + (Math.floor(Math.random()*255)) + "," + (Math.floor(Math.random()*255)) + "," + 0 + ")")
-    leafs[i].setAttribute("height", 4)
-    leafs[i].setAttribute("radius-bottom", 2)
-    scene.appendChild(leafs[i])
-  }
+  })
